@@ -35,6 +35,7 @@ const createPoll = async (req, res, next) => {
  * @route   GET /api/polls
  * @access  Public
  */
+// In getPolls function in pollController.js
 const getPolls = async (req, res, next) => {
     try {
         const { page = 1, limit = 10, search, tag, sort = '-createdAt' } = req.query;
@@ -44,34 +45,50 @@ const getPolls = async (req, res, next) => {
         if (search) {
             query.$or = [
                 { question: { $regex: search, $options: 'i' } },
-                { 'tags': { $regex: search, $options: 'i' } }
+                { tags: { $regex: search, $options: 'i' } }
             ];
         }
 
-        if (tag) {
-            query.tags = tag;
-        }
+        if (tag) query.tags = tag;
 
         const polls = await Poll.find(query)
             .sort(sort)
-            .limit(limit * 1)
+            .limit(Number(limit))
             .skip((page - 1) * limit)
-            .populate('createdBy', 'name')
-            .exec();
+            .populate('createdBy', 'name');
 
         const total = await Poll.countDocuments(query);
+
+        let userVotesMap = {};
+
+        if (req.user?._id) {
+            const pollIds = polls.map(poll => poll._id);
+
+            const userVotes = await Vote.find({
+                userId: req.user._id,          // ✅ KEY FIX
+                pollId: { $in: pollIds }
+            }).select('pollId');
+
+            userVotes.forEach(vote => {
+                userVotesMap[String(vote.pollId)] = true;
+            });
+        }
+
+        const pollsWithVotes = polls.map(poll => ({
+            ...poll.toObject(),
+            hasVoted: Boolean(userVotesMap[String(poll._id)])
+        }));
 
         res.status(200).json({
             success: true,
             count: polls.length,
             total,
-            data: polls
+            data: pollsWithVotes
         });
     } catch (err) {
         next(err);
     }
 };
-
 
 /*
  * @desc    Get single poll by ID or shareId

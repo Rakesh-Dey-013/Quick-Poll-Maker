@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Clock, Users, Tag, Share2, BarChart3, TrendingUp, ChevronRight } from 'lucide-react';
+import { Clock, Users, Tag, Share2, BarChart3, TrendingUp, ChevronRight, CheckCircle  } from 'lucide-react';
 
 const PollCard = ({ poll }) => {
   const isExpired = new Date(poll.expiresAt) < new Date();
   const totalVotes = poll.options.reduce((sum, option) => sum + option.voteCount, 0);
   const timeRemaining = Math.max(0, Math.floor((new Date(poll.expiresAt) - new Date()) / (1000 * 60 * 60)));
-  // const hasVoted = !!userVote;
+  const hasVoted = poll.hasVoted || false;
 
   const copyShareLink = async (e) => {
     e.stopPropagation();
@@ -36,6 +36,14 @@ const PollCard = ({ poll }) => {
           <span className={`text-xs font-medium ${isExpired ? 'text-red-300' : 'text-emerald-300'}`}>
             {isExpired ? 'EXPIRED' : `Expired in ${timeRemaining}h`}
           </span>
+
+          {/* Show Voted badge if user has voted */}
+          {hasVoted && !isExpired && (
+            <div className="flex items-center gap-1 px-2 py-1 bg-emerald-900/30 border border-emerald-700/40 rounded-lg ml-3">
+              <CheckCircle size={13} className="text-emerald-400" />
+              <span className="text-xs text-emerald-300 font-medium">Voted</span>
+            </div>
+          )}
         </div>
 
         <div className="flex items-center gap-2">

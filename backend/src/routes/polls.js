@@ -9,15 +9,16 @@ import {
 } from "../controllers/pollController.js";
 
 import protect from '../middlewares/auth.js';
+import optionalAuth from "../middlewares/optionalAuth.js";
 
 const router = express.Router();
 
 router.route('/')
-  .get(getPolls)
+  .get(optionalAuth, getPolls)
   .post(protect, createPoll);
 
 router.route('/:id')
-  .get(getPoll)
+  .get(optionalAuth, getPoll)
   .delete(protect, deletePoll);
 
 router.get('/me/created', protect, getMyPolls);
