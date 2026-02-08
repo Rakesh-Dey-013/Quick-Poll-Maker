@@ -121,7 +121,7 @@ const Home = () => {
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="px-4 py-2 bg-zinc-800/50 border border-zinc-700/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 text-zinc-100 text-sm"
+          className="px-4 py-2 bg-zinc-800 border border-zinc-700/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500/30 text-zinc-100 text-sm"
         >
           <option value="-createdAt">Newest First</option>
           <option value="createdAt">Oldest First</option>

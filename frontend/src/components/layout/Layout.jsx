@@ -8,7 +8,7 @@ const Layout = ({ children }) => {
       <main className="pt-16">
         {children}
       </main>
-      
+
       <footer className="mt-16 border-t border-zinc-800 py-8 px-4">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-center">
@@ -17,6 +17,8 @@ const Layout = ({ children }) => {
               <p className="text-zinc-400">Create quiz-style polls with instant feedback</p>
             </div>
             <div className="text-sm text-zinc-500">
+              <p className='mb-3'>Created by &nbsp;<a href="https://www.linkedin.com/in/rakeshdey007/" target='_blank'><span className='text-emerald-500'>Rakesh Kr. Dey.</span></a>
+                </p>
               <p>© {new Date().getFullYear()} Quick Poll Maker. All rights reserved.</p>
             </div>
           </div>
