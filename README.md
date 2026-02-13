@@ -6,7 +6,7 @@ A modern, full-stack quiz-style polling application built with the MERN stack (M
   <img src="https://skillicons.dev/icons?i=react,nodejs,expressjs,mongodb,vite,tailwind,javascript,css,html," />
 </p>
 
-## 📸 Screenshots
+## 📸 Preview Images
 
 <p align="center">
   <img src="https://github.com/Rakesh-Dey-013/Quick-Poll-Maker/blob/main/frontend/public/Home.png" alt="Home Page" width="350"/>
